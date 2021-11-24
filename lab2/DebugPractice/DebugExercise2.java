@@ -41,19 +41,19 @@ public class DebugExercise2 {
      * a[i] and b[i]. For example, if a = {1, -10, 3}
      * and b = {0, 20, 5}, this function will return {1, 20, 5}.
      * */
-    public static int[] arrayMax(int[] a, int[] b) {
-        if (a.length != b.length) {
-            System.out.println("ERROR! Arrays don't match");
-            return null;
-        }
-        int[] returnArray = new int[a.length];
-        for (int i = 0; i < a.length; i += 1) {
-            int biggerValue = max(a[i], b[i]);
-            returnArray[i] = biggerValue;
-        }
-
-        return returnArray;
-    }
+//    public static int[] arrayMax(int[] a, int[] b) {
+//        if (a.length != b.length) {
+//            System.out.println("ERROR! Arrays don't match");
+//            return null;
+//        }
+//        int[] returnArray = new int[a.length];
+//        for (int i = 0; i < a.length; i += 1) {
+//            int biggerValue = max(a[i], b[i]);
+//            returnArray[i] = biggerValue;
+//        }
+//
+//        return returnArray;
+//    }
 
     /** Returns the sum of all elements in x. */
     public static int arraySum(int[] x) {
@@ -74,6 +74,25 @@ public class DebugExercise2 {
         int[] maxes = arrayMax(a, b);
         int sumofMaxes = arraySum(maxes);
         return sumofMaxes;
+    }
+
+    /** Fix arrayMax */
+    public static int[] arrayMax(int[] a, int[] b){
+        int input_size = a.length;
+        int i = 0;
+        int[] out_put = new int[input_size];
+
+        while(i < input_size){
+            if (a[i] > b[i]){
+                out_put[i] = a[i];
+            }
+            else {
+                out_put[i] = b[i];
+            }
+            i += 1;
+        }
+
+        return out_put;
     }
 
 
