@@ -29,4 +29,14 @@ public class Planet {
         
     }
 
+    public double calcDistance(Planet p) {
+
+        double dx = p.xxPos - xxPos; 
+        double dy = p.yyPos - yyPos; 
+
+        double r = Math.sqrt(dx*dx + dy*dy);
+
+        return r;
+    }
+
 }
