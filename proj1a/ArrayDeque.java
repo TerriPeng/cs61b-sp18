@@ -73,6 +73,9 @@ public class ArrayDeque<T> {
 
     /** Removes and returns the item at the front of the deque, if none, return null */
     public T removeFirst() {
+        if (isEmpty()) {
+            return null;
+        }
         T firstItem = items[items.length + nextFirst + 1];
         items[items.length + nextFirst + 1] = null;
         size -= 1;
@@ -82,6 +85,9 @@ public class ArrayDeque<T> {
 
     /** Removes and returns the item at the back of the deque, if none, return null */
     public T removeLast() {
+        if (isEmpty()) {
+            return null;
+        }
         T lastItem = items[nextLast - 1];
         items[nextLast - 1] = null;
         size -= 1;
