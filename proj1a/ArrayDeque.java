@@ -20,7 +20,7 @@ public class ArrayDeque<T> {
             capacity = capacity / 2;
         }
         T[] a = (T[]) new Object[capacity];
-        System.arraycopy(items, 0, a, 0, lastPos);
+        System.arraycopy(items, 0, a, 0, lastPos + 1);
         System.arraycopy(items, items.length + firstPos,
                          a, items.length + firstPos, -firstPos);
         items = a;
@@ -49,9 +49,9 @@ public class ArrayDeque<T> {
     /** Returns true if deque is empty, false otherwise */
     public boolean isEmpty() {
         if (size > 0) {
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     /** Returns the number of items in the deque */
@@ -61,7 +61,7 @@ public class ArrayDeque<T> {
 
     /** Prints the items in the deque from first to last */
     public void printDeque() {
-        for (int i = items.length + firstPos; i < items.length; i++) {
+        for (int i = items.length + firstPos + 1; i < items.length; i++) {
             System.out.print(items[i] + " ");
         }
         for (int i = 0; i < lastPos; i++) {
@@ -71,16 +71,16 @@ public class ArrayDeque<T> {
 
     /** Removes and returns the item at the front of the deque, if none, return null */
     public T removeFirst() {
-        T firstItem = items[items.length + firstPos];
-        items[items.length + firstPos] = null;
+        T firstItem = items[items.length + firstPos + 1];
+        items[items.length + firstPos + 1] = null;
         size -= 1;
         return firstItem;
     }
 
     /** Removes and returns the item at the back of the deque, if none, return null */
     public T removeLast() {
-        T lastItem = items[lastPos];
-        items[lastPos] = null;
+        T lastItem = items[lastPos - 1];
+        items[lastPos - 1] = null;
         size -= 1;
         return lastItem;
     }
@@ -96,4 +96,15 @@ public class ArrayDeque<T> {
             return items[index + firstPos];
         }
     }
+
+//    public static void main(String[] args) {
+//        ArrayDeque test = new ArrayDeque();
+//        test.addFirst(5);
+//        test.addFirst(6);
+//        test.addLast(12);
+//        test.printDeque();
+//        System.out.println();
+//        System.out.println(test.size());
+//        System.out.println(test.isEmpty());
+//    }
 }
