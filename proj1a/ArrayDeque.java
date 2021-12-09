@@ -10,7 +10,7 @@ public class ArrayDeque<T> {
     public ArrayDeque() {
         items = (T[]) new Object[8];
         size = 0;
-        firstPos = 0;
+        firstPos = -1;
         lastPos = 0;
     }
 
@@ -31,8 +31,8 @@ public class ArrayDeque<T> {
         if (size == items.length) {
             resize(size * RFACTOR);
         }
-        firstPos -= 1;
         items[items.length + firstPos] = item;
+        firstPos -= 1;
         size += 1;
     }
 
@@ -41,8 +41,8 @@ public class ArrayDeque<T> {
         if (size == items.length) {
             resize(size * RFACTOR);
         }
-        lastPos += 1;
         items[lastPos] = item;
+        lastPos += 1;
         size += 1;
     }
 
