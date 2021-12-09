@@ -90,10 +90,10 @@ public class ArrayDeque<T> {
         if (index < 0 || index >= size) {
             return null;
         }
-        if (index < -firstPos) {
-            return items[items.length + firstPos + index];
+        if (index < -(firstPos + 1)) {
+            return items[items.length + (firstPos + 1) + index];
         } else {
-            return items[index + firstPos];
+            return items[index - firstPos];
         }
     }
 
