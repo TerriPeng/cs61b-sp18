@@ -24,13 +24,15 @@ public class LinkedListDeque<T> {
 
     /** Adds an item of type T to the front of the queue */
     public void addFirst(T item) {
-        sentinel.next = new TNode(item, sentinel.next.next, sentinel);
+        sentinel.next = new TNode(item, sentinel.next, sentinel);
+        sentinel.next.next.prev = sentinel.next;
         size += 1;
     }
 
     /** Adds an item of type T to the back of the queue */
     public void addLast(T item) {
-        sentinel.prev = new TNode(item, sentinel, sentinel.prev.prev);
+        sentinel.prev = new TNode(item, sentinel, sentinel.prev);
+        sentinel.prev.prev.next = sentinel.prev;
         size += 1;
     }
 
