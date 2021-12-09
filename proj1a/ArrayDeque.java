@@ -16,13 +16,14 @@ public class ArrayDeque<T> {
 
     /** Resize function */
     private void resize(int capacity) {
-        if (size / capacity < USAGERATIO) {
+        double doubleCapacity = capacity;
+        if (size / doubleCapacity < USAGERATIO) {
             capacity = capacity / 2;
         }
         T[] a = (T[]) new Object[capacity];
-        System.arraycopy(items, 0, a, 0, lastPos + 1);
-        System.arraycopy(items, items.length + firstPos,
-                         a, items.length + firstPos, -firstPos);
+        System.arraycopy(items, 0, a, 0, lastPos);
+        System.arraycopy(items, items.length + firstPos + 1,
+                         a, a.length + firstPos + 1, -(firstPos + 1));
         items = a;
     }
 
@@ -114,6 +115,14 @@ public class ArrayDeque<T> {
 //        test.removeLast();
 //        test.addFirst("first");
 //        test.addLast("last");
+//        test.printDeque();
+//        System.out.println();
+//
+//        int count = 0;
+//        while (count < 10) {
+//            test.addFirst(count);
+//            count += 1;
+//        }
 //        test.printDeque();
 //    }
 }
