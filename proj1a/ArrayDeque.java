@@ -16,10 +16,10 @@ public class ArrayDeque<T> {
 
     /** Resize function */
     private void resize(int capacity) {
-        double doubleCapacity = capacity;
-        if (size / doubleCapacity < USAGERATIO) {
-            capacity = capacity / 2;
-        }
+//        double doubleCapacity = capacity;
+//        if (size / doubleCapacity < USAGERATIO) {
+//            capacity = capacity / 2;
+//        }
         T[] a = (T[]) new Object[capacity];
         System.arraycopy(items, 0, a, 0, lastPos);
         System.arraycopy(items, items.length + firstPos + 1,
