@@ -1,9 +1,9 @@
 /** First deque implementation */
 public class LinkedListDeque<T> {
     private class TNode<T> {
-        public T item;
-        public TNode<T> next;
-        public TNode<T> prev;
+        private T item;
+        private TNode<T> next;
+        private TNode<T> prev;
 
         public TNode(T i, TNode n, TNode p) {
             item = i;
@@ -20,12 +20,6 @@ public class LinkedListDeque<T> {
         sentinel.next = sentinel;
         sentinel.prev = sentinel;
         size = 0;
-    }
-
-    public LinkedListDeque(T x) {
-        sentinel = new TNode(null, null, null);
-        sentinel.next = new TNode(x, null, sentinel);
-        size = 1;
     }
 
     /** Adds an item of type T to the front of the queue */
@@ -69,8 +63,8 @@ public class LinkedListDeque<T> {
         }
         T returnItem = sentinel.next.item;
         size -= 1;
-        sentinel.next.next.prev = sentinel;
         sentinel.next = sentinel.next.next;
+        sentinel.next.prev = sentinel;
         return returnItem;
     }
 
@@ -111,7 +105,7 @@ public class LinkedListDeque<T> {
         return getRecursiveHelper(index, sentinel.next);
     }
 
-    public T getRecursiveHelper(int index, TNode<T> current) {
+    private T getRecursiveHelper(int index, TNode<T> current) {
         if (index == 0) {
             return current.item;
         }

@@ -15,7 +15,7 @@ public class ArrayDeque<T> {
     }
 
     /** Resize function */
-    public void resize(int capacity) {
+    private void resize(int capacity) {
         if (size / capacity < USAGERATIO) {
             capacity = capacity / 2;
         }
