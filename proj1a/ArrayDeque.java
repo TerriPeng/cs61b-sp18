@@ -74,6 +74,7 @@ public class ArrayDeque<T> {
         T firstItem = items[items.length + firstPos + 1];
         items[items.length + firstPos + 1] = null;
         size -= 1;
+        firstPos += 1;
         return firstItem;
     }
 
@@ -82,6 +83,7 @@ public class ArrayDeque<T> {
         T lastItem = items[lastPos - 1];
         items[lastPos - 1] = null;
         size -= 1;
+        lastPos -= 1;
         return lastItem;
     }
 
@@ -93,7 +95,7 @@ public class ArrayDeque<T> {
         if (index < -(firstPos + 1)) {
             return items[items.length + (firstPos + 1) + index];
         } else {
-            return items[index - firstPos];
+            return items[index - lastPos];
         }
     }
 
@@ -102,9 +104,16 @@ public class ArrayDeque<T> {
 //        test.addFirst(5);
 //        test.addFirst(6);
 //        test.addLast(12);
+//        test.addLast(13);
 //        test.printDeque();
 //        System.out.println();
 //        System.out.println(test.size());
 //        System.out.println(test.isEmpty());
+//        System.out.println(test.get(3));
+//        test.removeFirst();
+//        test.removeLast();
+//        test.addFirst("first");
+//        test.addLast("last");
+//        test.printDeque();
 //    }
 }
