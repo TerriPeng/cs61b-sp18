@@ -1,6 +1,9 @@
 public class ArrayDeque<T> {
     private static int RFACTOR = 2;
     private static double USAGERATIO = 0.25;
+    private static int minCapacity = 16;
+    private static int cFactor = 2;
+    private int capacity;
     private T[] items;
     private int size;
     private int nextFirst;
@@ -8,43 +11,12 @@ public class ArrayDeque<T> {
 
     /** Creates empty list */
     public ArrayDeque() {
-        items = (T[]) new Object[8];
+        // initial capacity: 8
+        capacity = 8;
+        items = (T[]) new Object[capacity];
         size = 0;
-        nextFirst = -1;
+        nextFirst = capacity - 1;
         nextLast = 0;
-    }
-
-    /** Resize function */
-    private void resize(int capacity) {
-        double doubleCapacity = capacity;
-        if (size / doubleCapacity < USAGERATIO) {
-            capacity = capacity / 2;
-        }
-        T[] a = (T[]) new Object[capacity];
-        System.arraycopy(items, 0, a, 0, nextLast);
-        System.arraycopy(items, items.length + nextFirst + 1,
-                         a, a.length + nextFirst + 1, -(nextFirst + 1));
-        items = a;
-    }
-
-    /**  Add an item of type T to the front of deque */
-    public void addFirst(T item) {
-        if (size == items.length) {
-            resize(size * RFACTOR);
-        }
-        items[items.length + nextFirst] = item;
-        nextFirst -= 1;
-        size += 1;
-    }
-
-    /** Adds an items of type T to the back of deque */
-    public void addLast(T item) {
-        if (size == items.length) {
-            resize(size * RFACTOR);
-        }
-        items[nextLast] = item;
-        nextLast += 1;
-        size += 1;
     }
 
     /** Returns true if deque is empty, false otherwise */
@@ -60,13 +32,75 @@ public class ArrayDeque<T> {
         return size;
     }
 
+    /** Decreases index */
+    private int oneMinus(int index) {
+        if (index == 0) {
+            return capacity - 1;
+        } else {
+            return index - 1;
+        }
+    }
+
+    /** Increases index */
+    private int onePlus(int index) {
+        if (index == capacity - 1) {
+            return 0;
+        } else {
+            return index + 1;
+        }
+    }
+
+    /** Resize function */
+    private void resize(int newCapacity) {
+        int currentFirst = onePlus(nextFirst);
+        int currentLast = oneMinus(nextLast);
+        T[] newItems = (T[]) new Object[newCapacity];
+        int firstLength = capacity - currentFirst;
+        int newFirst = newCapacity - firstLength;
+        System.arraycopy(items, currentFirst, newItems, newFirst, firstLength);
+        System.arraycopy(items, 0, newItems, 0, nextLast);
+        nextFirst = newFirst - 1;
+        capacity = newCapacity;
+        items = newItems;
+    }
+
+    /** Check for resize */
+    private void resizeCheck() {
+        if (size == capacity) {
+            resize(capacity * RFACTOR);
+        }
+    }
+
+    /** Check for shrink */
+    private void shrinkCheck() {
+        double ratio = (double) size / capacity;
+        if (ratio < USAGERATIO && capacity > minCapacity) {
+            resize(capacity/cFactor);
+        }
+    }
+
+    /**  Add an item of type T to the front of deque */
+    public void addFirst(T item) {
+        items[nextFirst] = item;
+        oneMinus(nextFirst);
+        size += 1;
+        resizeCheck();
+    }
+
+    /** Adds an items of type T to the back of deque */
+    public void addLast(T item) {
+        items[nextLast] = item;
+        onePlus(nextLast);
+        size += 1;
+        resizeCheck();
+    }
+
     /** Prints the items in the deque from first to last */
     public void printDeque() {
-        for (int i = items.length + nextFirst + 1; i < items.length; i++) {
-            System.out.print(items[i] + " ");
-        }
-        for (int i = 0; i < nextLast; i++) {
-            System.out.print(items[i] + " ");
+        int currentIndex = onePlus(nextFirst);
+        while (currentIndex != nextLast) {
+            System.out.print(items[currentIndex] + " ");
+            currentIndex = onePlus(currentIndex);
         }
         System.out.println();
     }
@@ -76,11 +110,12 @@ public class ArrayDeque<T> {
         if (isEmpty()) {
             return null;
         }
-        T firstItem = items[items.length + nextFirst + 1];
-        items[items.length + nextFirst + 1] = null;
+        T removed = items[onePlus(nextFirst)];
+        items[onePlus(nextFirst)] = null;
+        nextFirst = onePlus(nextFirst);
         size -= 1;
-        nextFirst += 1;
-        return firstItem;
+        shrinkCheck();
+        return removed
     }
 
     /** Removes and returns the item at the back of the deque, if none, return null */
@@ -88,11 +123,12 @@ public class ArrayDeque<T> {
         if (isEmpty()) {
             return null;
         }
-        T lastItem = items[nextLast - 1];
-        items[nextLast - 1] = null;
+        T removed = items[oneMinus(nextLast)];
+        items[oneMinus(nextLast)] = null;
+        nextLast = oneMinus(nextLast);
         size -= 1;
-        nextLast -= 1;
-        return lastItem;
+        shrinkCheck();
+        return removed;
     }
 
     /** Gets the item at given index, if none, return null */
@@ -100,11 +136,11 @@ public class ArrayDeque<T> {
         if (index < 0 || index >= size) {
             return null;
         }
-        if (index < -(nextFirst + 1)) {
-            return items[items.length + (nextFirst + 1) + index];
-        } else {
-            return items[index + (nextFirst + 1)];
+        int reindex = nextFirst + 1 + index;
+        if (reindex >= capacity) {
+            reindex -= capacity;
         }
+        return items[reindex];
     }
 
 //    public static void main(String[] args){
