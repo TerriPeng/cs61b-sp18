@@ -115,7 +115,7 @@ public class ArrayDeque<T> {
         nextFirst = onePlus(nextFirst);
         size -= 1;
         shrinkCheck();
-        return removed
+        return removed;
     }
 
     /** Removes and returns the item at the back of the deque, if none, return null */
