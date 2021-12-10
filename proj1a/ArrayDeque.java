@@ -55,11 +55,18 @@ public class ArrayDeque<T> {
         int currentFirst = onePlus(nextFirst);
         int currentLast = oneMinus(nextLast);
         T[] newItems = (T[]) new Object[newCapacity];
-        int firstLength = capacity - currentFirst;
-        int newFirst = newCapacity - firstLength;
-        System.arraycopy(items, currentFirst, newItems, newFirst, firstLength);
-        System.arraycopy(items, 0, newItems, 0, nextLast);
-        nextFirst = newFirst - 1;
+        if (currentFirst < currentLast) {
+            int length = currentLast - currentFirst + 1;
+            System.arraycopy(items, currentFirst, newItems, 0, length);
+            nextFirst = newCapacity - 1;
+            nextLast = length;
+        } else {
+            int firstLength = capacity - currentFirst;
+            int newFirst = newCapacity - firstLength;
+            System.arraycopy(items, currentFirst, newItems, newFirst, firstLength);
+            System.arraycopy(items, 0, newItems, 0, nextLast);
+            nextFirst = newFirst - 1;
+        }
         capacity = newCapacity;
         items = newItems;
     }
